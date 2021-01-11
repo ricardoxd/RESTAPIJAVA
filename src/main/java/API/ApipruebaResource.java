@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -34,14 +33,7 @@ public class ApipruebaResource {
 
     @Context
     private UriInfo context;
-    @Context
-    private HttpServletResponse servletResponse;
 
-    private void allowCrossDomainAccess() {
-        if (servletResponse != null){
-            servletResponse.setHeader("Access-Control-Allow-Origin", "*");
-        }
-    }
 
     /**
      * Creates a new instance of ApipruebaResource
@@ -56,9 +48,9 @@ public class ApipruebaResource {
      * @return an instance of java.lang.String
      */
     @POST
+    @Path("/utc")
     @Produces(MediaType.APPLICATION_JSON)
     public String getJson(@FormParam("dato1") String dato1,@FormParam("dato2") String dato2) {
-       allowCrossDomainAccess(); 
        Time t = Time.valueOf(dato1);
        long ts = t.getTime();
        Date localTime = new Date(ts);
